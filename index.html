@@ -1,0 +1,2835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Solaria Home Cinema interactive reference manual: Crestron TSR-310 remote, wall keypads, startup, Music Mode, shutdown and installer support.">
+<meta name="theme-color" content="#0a0a0c">
+<meta name="color-scheme" content="dark">
+<title>Solaria Home Cinema — Interactive Manual</title>
+<style>
+/* ---------------------------------------------------------------
+   Design tokens
+---------------------------------------------------------------- */
+:root {
+  --bg: #0a0a0c;
+  --bg-soft: #101014;
+  --panel: #15151a;
+  --panel-2: #1b1b21;
+  --line: #2b2b34;
+  --line-soft: #23232a;
+  --text: #f2ecdf;
+  --muted: #a8a29a;
+  --muted-dim: #7f7a74;
+  --gold: #d4af5a;
+  --gold-light: #f0d48a;
+  --gold-dark: #8d7231;
+  --good: #8fd7b0;
+  --warn: #e2be72;
+  --screen-a: #2f83d8;
+  --screen-b: #215eae;
+  --radius: 18px;
+  --radius-sm: 10px;
+  --shadow: 0 24px 60px -32px rgba(0, 0, 0, 0.95);
+  --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: Georgia, "Times New Roman", Times, serif;
+  --header-h: 132px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 12px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(1100px 520px at 50% -180px, rgba(212, 175, 90, 0.13), transparent 70%),
+    radial-gradient(900px 600px at 100% 30%, rgba(212, 175, 90, 0.035), transparent 65%),
+    var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, p, ol, ul, figure { margin: 0; }
+button, input, summary { font: inherit; }
+a { color: inherit; }
+svg { display: block; }
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: 8px; left: 8px;
+  z-index: 200;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: var(--gold);
+  color: #16130a;
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-160%);
+}
+.skip-link:focus { transform: translateY(0); }
+
+/* ---------------------------------------------------------------
+   Header and search
+---------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(10, 10, 12, 0.94);
+  border-bottom: 1px solid var(--line-soft);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.header-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 22px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 11px 20px 12px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  line-height: 1.1;
+  flex: 0 0 auto;
+}
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 34px; height: 34px;
+  border: 1px solid rgba(212, 175, 90, 0.6);
+  border-radius: 50%;
+  color: var(--gold);
+  background: radial-gradient(circle at 50% 30%, rgba(212, 175, 90, 0.22), transparent 70%);
+}
+.brand-name {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--text);
+}
+.brand-sub {
+  display: block;
+  margin-top: 2px;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  color: var(--gold);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  order: 3;
+  margin-left: auto;
+}
+.site-nav a {
+  padding: 8px 10px;
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+.site-nav a:hover { color: var(--text); background: rgba(255, 255, 255, 0.05); }
+
+/* Search */
+.search {
+  position: relative;
+  order: 4;
+  flex: 1 1 100%;
+  min-width: 0;
+}
+.search-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.search-field:focus-within {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(212, 175, 90, 0.16);
+}
+.search-field svg { color: var(--gold); flex: 0 0 auto; }
+.search-field input {
+  width: 100%;
+  min-width: 0;
+  padding: 9px 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 13.5px;
+}
+.search-field input::placeholder { color: var(--muted-dim); }
+.search-field input:focus { outline: none; }
+.search-field input::-webkit-search-cancel-button,
+.search-field input::-webkit-search-decoration { -webkit-appearance: none; appearance: none; }
+.search-clear {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1;
+  padding: 6px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.search-clear:hover { color: var(--text); }
+
+.search-results {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0; right: 0;
+  z-index: 80;
+  max-height: min(62vh, 430px);
+  overflow-y: auto;
+  padding: 5px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.9);
+}
+.search-result {
+  display: block;
+  width: 100%;
+  padding: 9px 11px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.search-result:hover, .search-result:focus-visible { background: rgba(212, 175, 90, 0.12); }
+.search-result .sr-kind {
+  display: block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.search-result .sr-title {
+  display: block;
+  margin-top: 1px;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.search-result .sr-snippet {
+  display: block;
+  margin-top: 1px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.search-empty {
+  padding: 12px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------------
+   Layout and typography
+---------------------------------------------------------------- */
+main { overflow-x: hidden; }
+
+.section {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 52px 20px;
+  scroll-margin-top: calc(var(--header-h) + 8px);
+}
+.section + .section { border-top: 1px solid var(--line-soft); }
+
+.eyebrow {
+  margin-bottom: 8px;
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+.section-head { max-width: 720px; margin-bottom: 26px; }
+.section-head h2 {
+  font-family: var(--font-display);
+  font-size: clamp(27px, 3.6vw, 38px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+}
+.section-intro {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+.section-intro strong { color: var(--text); font-weight: 600; }
+
+/* Hero */
+.hero {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 62px 20px 18px;
+  text-align: center;
+}
+.hero .eyebrow { letter-spacing: 0.34em; }
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(38px, 7.2vw, 66px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.08em;
+}
+.hero h1 span {
+  display: block;
+  margin-top: 10px;
+  font-size: clamp(15px, 2.5vw, 22px);
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  color: var(--gold);
+}
+.hero p.welcome {
+  max-width: 640px;
+  margin: 18px auto 0;
+  color: var(--muted);
+  font-size: clamp(14.5px, 1.8vw, 16.5px);
+}
+.hero-rule {
+  width: 64px;
+  height: 1px;
+  margin: 24px auto 0;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+/* ---------------------------------------------------------------
+   Remote
+---------------------------------------------------------------- */
+.remote-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+  gap: 44px;
+  align-items: start;
+  max-width: 1010px;
+  margin: 0 auto;
+}
+.remote-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 14px 0 34px;
+  perspective: 1500px;
+}
+.remote-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  width: 72%;
+  height: 30px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.9), transparent 72%);
+  filter: blur(6px);
+}
+
+.remote {
+  position: relative;
+  width: min(312px, 100%);
+  padding: 15px 16px 16px;
+  border: 1px solid #3a3a43;
+  border-radius: 27px;
+  background:
+    linear-gradient(155deg, #2b2b31 0%, #17171c 22%, #0e0e12 55%, #1c1c22 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.13),
+    inset 1px 0 0 rgba(255, 255, 255, 0.05),
+    inset -1px 0 0 rgba(0, 0, 0, 0.7),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.7),
+    0 2px 0 #050507,
+    0 34px 58px -22px rgba(0, 0, 0, 0.95);
+  transform: rotateX(2.4deg) rotateY(-6.5deg);
+  transform-style: preserve-3d;
+  transition: transform 0.35s ease;
+}
+.remote:hover { transform: rotateX(1.2deg) rotateY(-3deg); }
+
+.remote-top {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  padding: 0 0 8px;
+}
+.remote-top span {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.remote-screen-wrap {
+  padding: 6px;
+  border: 1px solid #3d3d46;
+  border-radius: 9px;
+  background: linear-gradient(180deg, #050506, #0c0c10);
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.9),
+    0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.remote-screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 20 / 23;
+  overflow: hidden;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--screen-a) 0%, var(--screen-b) 100%);
+  color: #fff;
+  box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.22);
+}
+.remote-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(118deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.02) 34%, transparent 35%);
+  z-index: 6;
+}
+
+.screen-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 5px 8px 4px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.screen-status-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-variant-numeric: tabular-nums;
+}
+.screen-status-right svg { opacity: 0.95; }
+
+.screen-body { position: relative; flex: 1; min-height: 0; }
+.remote-screen:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+.screen-page { height: 100%; overflow: hidden; }
+.screen-page.is-entering { animation: page-enter 0.18s ease-out; }
+@keyframes page-enter {
+  from { opacity: 0.35; transform: translateX(5px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.screen-list-title {
+  padding: 3px 8px;
+  background: rgba(255, 255, 255, 0.13);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.screen-row {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  min-height: 37px;
+  padding: 7px 8px;
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.17);
+  background: transparent;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: left;
+  cursor: pointer;
+}
+.screen-row:first-of-type { border-top: 0; }
+.screen-row:hover { background: rgba(255, 255, 255, 0.12); }
+.screen-row:active { background: rgba(255, 255, 255, 0.22); }
+.screen-row:focus-visible { outline: 2px solid #fff; outline-offset: -2px; }
+.screen-row.is-selected { background: rgba(255, 255, 255, 0.22); }
+.screen-row .row-icon {
+  display: grid;
+  place-items: center;
+  width: 17px; height: 17px;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 700;
+}
+.screen-row .row-icon.tv {
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 3px;
+  font-size: 7px;
+  letter-spacing: -0.03em;
+}
+.screen-note {
+  padding: 5px 8px;
+  font-size: 8.5px;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.brightness-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.2);
+}
+.brightness-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 32px;
+  border: 0;
+  background: rgba(47, 131, 216, 0.9);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 13px;
+  cursor: pointer;
+}
+.brightness-btn:hover { background: rgba(59, 145, 231, 0.95); }
+.brightness-btn:focus-visible { outline: 2px solid #fff; outline-offset: -2px; }
+.brightness-btn .nc {
+  font-size: 6.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 2px;
+  padding: 1px 2px;
+  line-height: 1;
+}
+.brightness-label {
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.screen-dots {
+  display: flex;
+  justify-content: center;
+  gap: 1px;
+  padding: 1px 0 2px;
+  background: var(--screen-b);
+  flex: 0 0 auto;
+}
+.screen-dot {
+  position: relative;
+  width: 26px; height: 20px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.screen-dot::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 7px; height: 7px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+}
+.screen-dot[aria-selected="true"]::after { background: #fff; box-shadow: 0 0 5px rgba(255, 255, 255, 0.7); }
+.screen-dot:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
+
+.screen-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  overflow-y: auto;
+  background: rgba(20, 66, 122, 0.98);
+  animation: overlay-in 0.16s ease-out;
+}
+@keyframes overlay-in {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
+}
+.overlay-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+.overlay-tag {
+  padding: 3px 5px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.16);
+  color: #fff;
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-align: right;
+}
+.overlay-tag.is-warn {
+  border-color: rgba(255, 221, 156, 0.85);
+  background: rgba(126, 91, 18, 0.4);
+  color: #ffe7b8;
+}
+.overlay-close {
+  margin-top: auto;
+  padding-top: 8px;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.82);
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.overlay-close:hover { color: #fff; text-decoration: underline; }
+.overlay-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.overlay-back {
+  padding: 3px 6px;
+  border: 0;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.overlay-back:hover { background: rgba(255, 255, 255, 0.3); }
+.overlay-title { margin-top: 9px; font-size: 14px; font-weight: 700; line-height: 1.2; letter-spacing: 0.02em; }
+.overlay-text { margin-top: 5px; font-size: 10.5px; line-height: 1.45; color: rgba(255, 255, 255, 0.94); }
+.overlay-note {
+  margin-top: 6px;
+  padding-top: 5px;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  font-size: 8px;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.screen-toast {
+  position: absolute;
+  left: 7px; right: 7px; bottom: 7px;
+  z-index: 7;
+  padding: 5px 7px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.82);
+  color: #fff;
+  font-size: 9.5px;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.volume-overlay {
+  position: absolute;
+  left: 8px; right: 8px; bottom: 8px;
+  z-index: 4;
+  padding: 6px 8px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.74);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.volume-overlay .volume-head { display: flex; justify-content: space-between; }
+.volume-note {
+  margin-top: 3px;
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.78);
+}
+.volume-bar { height: 3px; margin-top: 4px; border-radius: 2px; background: rgba(255, 255, 255, 0.25); }
+.volume-bar span { display: block; height: 100%; width: 24%; border-radius: 2px; background: #fff; transition: width 0.15s ease; }
+
+/* Hard buttons */
+.hard-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  margin: 13px 0 11px;
+}
+.hard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  border: 1px solid #303038;
+  border-radius: 5px;
+  background: linear-gradient(180deg, #22222a 0%, #141419 100%);
+  color: #e7e7eb;
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 1px 2px rgba(0, 0, 0, 0.65);
+  transition: background-color 0.14s ease, transform 0.06s ease, box-shadow 0.14s ease;
+}
+.hard:hover { background: linear-gradient(180deg, #2a2a33 0%, #1a1a21 100%); }
+.hard:active, .hard.is-pressed {
+  transform: translateY(1px);
+  background: #0e0e12;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.85);
+}
+.hard:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.hard.round {
+  width: 43px; height: 43px;
+  min-height: 43px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #1c1c22, #111115);
+  color: #d6d6db;
+}
+.hard.round:hover { background: linear-gradient(180deg, #26262e, #15151a); }
+.hard.round.power {
+  border-color: rgba(196, 58, 58, 0.8);
+  color: #e05555;
+  box-shadow: 0 0 0 2px rgba(125, 22, 22, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.nav-cluster {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 92px minmax(0, 1fr);
+  grid-template-rows: 40px 92px 40px;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid #2a2a31;
+  border-radius: 6px;
+  background: #0a0a0d;
+}
+.nav-cluster .hard { min-height: 0; height: 100%; }
+.nav-cluster .hard.label { font-size: 9.5px; }
+.ring-cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-ring {
+  position: relative;
+  width: 92px; height: 92px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background:
+    conic-gradient(from 210deg, #7e7e84, #e9e9ea 12%, #a7a7ad 28%, #6b6b71 46%, #dcdcde 64%, #8d8d93 82%, #5f5f65);
+  box-shadow:
+    0 3px 7px rgba(0, 0, 0, 0.7),
+    inset 0 1px 1px rgba(255, 255, 255, 0.65);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+.nav-ring::before {
+  content: "";
+  position: absolute;
+  inset: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 38%, #2c2c31, #060607 75%);
+  box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.95);
+}
+.nav-ring:active { transform: scale(0.985); }
+.nav-ring:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.ring-dot {
+  position: absolute;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: rgba(20, 20, 22, 0.8);
+  pointer-events: none;
+}
+.ring-ok-label {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 1;
+  color: #d6d6db;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+}
+.ring-ok-label.is-lit { color: #f0b45c; text-shadow: 0 0 6px rgba(240, 180, 92, 0.9); }
+.ring-dot.n { top: 8px; left: 50%; transform: translateX(-50%); }
+.ring-dot.s { bottom: 8px; left: 50%; transform: translateX(-50%); }
+.ring-dot.w { left: 8px; top: 50%; transform: translateY(-50%); }
+.ring-dot.e { right: 8px; top: 50%; transform: translateY(-50%); }
+
+.transport-cluster {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  margin-top: 10px;
+  padding: 4px;
+  border: 1px solid #2a2a31;
+  border-radius: 6px;
+  background: #0a0a0d;
+}
+.transport-cluster .hard {
+  min-height: 36px;
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+}
+.transport-cluster .glyph { font-size: 12px; letter-spacing: 0.02em; }
+.rec-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #e23b3b;
+  box-shadow: 0 0 6px rgba(226, 59, 59, 0.7);
+}
+.dot-4 {
+  display: grid;
+  grid-template-columns: repeat(2, 3px);
+  gap: 2px;
+}
+.dot-4 span { width: 3px; height: 3px; border-radius: 50%; }
+
+.remote-caption {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.34em;
+  color: rgba(255, 255, 255, 0.32);
+}
+
+/* Remote guide panel */
+.remote-panel { display: grid; gap: 12px; align-content: start; }
+.guide-card {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  box-shadow: var(--shadow);
+}
+.guide-kicker {
+  color: var(--gold);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+.guide-card h3 {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.guide-body {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 44px;
+}
+.guide-status {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.guide-card[data-tone="confirmed"] .guide-status { border-color: rgba(143, 215, 176, 0.5); color: var(--good); }
+.guide-card[data-tone="nc"] .guide-status { border-color: rgba(226, 190, 114, 0.6); color: var(--warn); }
+.guide-card[data-tone="neutral"] .guide-status { border-color: var(--line); color: var(--muted); }
+
+.page-switch {
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(21, 21, 26, 0.7);
+}
+.panel-label {
+  display: block;
+  color: var(--muted-dim);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.page-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.chip-btn {
+  padding: 6px 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+.chip-btn:hover { border-color: var(--gold); color: var(--gold); }
+.chip-btn[aria-current="true"] { border-color: var(--gold); color: var(--gold); background: rgba(212, 175, 90, 0.09); }
+
+.reference {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(21, 21, 26, 0.7);
+}
+.reference summary {
+  padding: 13px 16px;
+  color: var(--text);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 14px;
+  list-style-position: inside;
+}
+.reference summary:hover { color: var(--gold); }
+.reference[open] summary { border-bottom: 1px solid var(--line); color: var(--gold); }
+.reference-inner { padding: 14px 16px 16px; }
+.ref-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 16px;
+}
+.ref-groups h4 {
+  margin-bottom: 6px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted-dim);
+}
+.ref-groups ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
+.ref-groups li {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+.ref-badge {
+  flex: 0 0 auto;
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid rgba(226, 190, 114, 0.5);
+  color: var(--warn);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+.ref-badge.ok { border-color: rgba(143, 215, 176, 0.45); color: var(--good); }
+.reference p.ref-note {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-soft);
+  color: var(--muted-dim);
+  font-size: 11.5px;
+  line-height: 1.55;
+}
+
+/* ---------------------------------------------------------------
+   Keypads
+---------------------------------------------------------------- */
+.keypad-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.keypad-card {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+}
+.keypad-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+.keypad-head h3 { font-family: var(--font-display); font-size: 21px; font-weight: 600; }
+.keypad-location {
+  padding: 2px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.keypad-purpose { color: var(--muted); font-size: 12.5px; margin-bottom: 12px; }
+
+.plate {
+  display: grid;
+  gap: 6px;
+  border-radius: 10px;
+  padding: 7px;
+  box-shadow: 0 16px 34px -22px rgba(0, 0, 0, 0.95);
+}
+.plate-black {
+  background: linear-gradient(155deg, #2b2b2f, #0e0e10 55%, #1a1a1e);
+  border: 1px solid #3b3b42;
+}
+.plate-white {
+  background: linear-gradient(155deg, #ffffff, #ecebe7 60%, #f8f7f3);
+  border: 1px solid #d5d3cc;
+}
+.key-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 50px;
+  padding: 9px 10px;
+  overflow: hidden;
+  border-radius: 5px;
+  font-family: var(--font-body);
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.09s ease, box-shadow 0.12s ease, background-color 0.12s ease;
+}
+.plate-black .key-btn {
+  background: linear-gradient(180deg, #1b1b20 0%, #131317 100%);
+  border: 1px solid #35353d;
+  color: var(--text);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 2px 0 #060608,
+    0 3px 5px rgba(0, 0, 0, 0.55);
+}
+.plate-white .key-btn {
+  background: linear-gradient(180deg, #ffffff 0%, #f3f2ed 100%);
+  border: 1px solid #cccac3;
+  color: #262626;
+  box-shadow:
+    inset 0 1px 0 #ffffff,
+    0 2px 0 #c4c2bb,
+    0 3px 5px rgba(0, 0, 0, 0.16);
+}
+@media (hover: hover) {
+  .plate-black .key-btn:hover { background: linear-gradient(180deg, #24242b 0%, #191920 100%); border-color: #4a4a55; }
+  .plate-white .key-btn:hover { background: linear-gradient(180deg, #ffffff 0%, #fbfaf6 100%); border-color: #b6b3aa; }
+}
+.key-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.plate-white .key-btn:focus-visible { outline-color: #8a6b22; }
+.key-btn:active,
+.key-btn.is-pressed {
+  transform: translateY(2px);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5), 0 0 0 rgba(0, 0, 0, 0);
+}
+.plate-white .key-btn:active,
+.plate-white .key-btn.is-pressed {
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.22), 0 0 0 rgba(0, 0, 0, 0);
+}
+.key-btn.is-active {
+  border-color: rgba(212, 175, 90, 0.9);
+  box-shadow:
+    inset 0 0 0 1px rgba(212, 175, 90, 0.65),
+    0 0 14px -2px rgba(212, 175, 90, 0.45);
+}
+.key-btn.is-active .key-label { color: var(--gold-light); }
+.plate-white .key-btn.is-active {
+  background: linear-gradient(180deg, #fffdf6 0%, #f7ecd2 100%);
+  border-color: #b08a36;
+  box-shadow:
+    inset 0 0 0 1px rgba(176, 138, 54, 0.55),
+    0 0 12px -2px rgba(212, 175, 90, 0.5);
+}
+.plate-white .key-btn.is-active .key-label { color: #6f5316; }
+.key-btn.is-holding {
+  border-color: var(--gold);
+  box-shadow: inset 0 0 0 1px rgba(212, 175, 90, 0.7), 0 0 12px -1px rgba(212, 175, 90, 0.5);
+}
+.key-btn.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+  border-style: dashed;
+}
+.key-btn.is-disabled .key-label { text-decoration: line-through; text-decoration-thickness: 1px; }
+.key-led {
+  flex: 0 0 auto;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3a3a42;
+  border: 1px solid #55555f;
+  transition: background-color 0.12s ease, box-shadow 0.12s ease;
+}
+.plate-white .key-led { background: #dedcd5; border-color: #b9b7b0; }
+.key-btn.is-active .key-led,
+.key-btn.is-holding .key-led {
+  background: var(--gold);
+  border-color: var(--gold-light);
+  box-shadow: 0 0 7px rgba(212, 175, 90, 0.95);
+}
+.key-btn.is-disabled .key-led { background: #b04646; border-color: #c96a6a; }
+.key-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+.key-fill {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: var(--hold, 0%);
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+  transition: width 0.06s linear;
+  pointer-events: none;
+}
+.key-tags { display: flex; flex-wrap: wrap; gap: 4px; justify-content: flex-end; }
+.key-tag {
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid;
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.plate-black .key-tag.hold { border-color: rgba(212, 175, 90, 0.5); color: var(--gold); }
+.plate-black .key-tag.off { border-color: rgba(226, 106, 106, 0.55); color: #e78585; }
+.plate-white .key-tag.hold { border-color: rgba(141, 114, 49, 0.5); color: #7a6228; }
+.plate-white .key-tag.off { border-color: rgba(176, 55, 55, 0.55); color: #a93636; }
+.plate-white .key-tag.nc { border-color: rgba(140, 106, 34, 0.55); color: #7f6425; }
+.plate-black .key-tag.nc { border-color: rgba(226, 190, 114, 0.6); color: var(--warn); }
+.plate-black .key-tag.lights { border-color: rgba(121, 181, 224, 0.5); color: #8dc1e6; }
+.plate-white .key-tag.lights { border-color: rgba(60, 110, 145, 0.55); color: #35667f; }
+
+.keypad-note {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+.keypad-note strong { color: var(--text); font-weight: 600; }
+
+.keypad-feedback {
+  margin-top: 12px;
+  padding: 10px 12px;
+  min-height: 70px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--line);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.28);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.keypad-feedback[data-tone="active"] {
+  border-left-color: var(--gold);
+  background: rgba(212, 175, 90, 0.07);
+}
+.keypad-feedback[data-tone="warn"] {
+  border-left-color: #d98b8b;
+  background: rgba(217, 139, 139, 0.07);
+}
+.keypad-feedback .kf-title {
+  display: block;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.keypad-feedback .kf-text {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+.keypad-feedback .kf-note {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted-dim);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.page-hint {
+  margin-top: 10px;
+  color: var(--muted-dim);
+  font-size: 11px;
+  line-height: 1.5;
+}
+.page-hint kbd {
+  padding: 0 4px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.3);
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: var(--text);
+}
+
+.keypad-difference {
+  margin-top: 18px;
+  padding: 13px 16px;
+  border: 1px solid rgba(212, 175, 90, 0.3);
+  border-radius: 12px;
+  background: rgba(212, 175, 90, 0.055);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.keypad-difference strong { color: var(--gold-light); font-weight: 600; }
+
+/* ---------------------------------------------------------------
+   Operation
+---------------------------------------------------------------- */
+.proc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.proc-card {
+  display: flex;
+  flex-direction: column;
+  padding: 19px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+}
+.proc-num {
+  color: var(--gold);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+.proc-card h3 {
+  margin-top: 4px;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.proc-steps { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.proc-steps li { display: flex; gap: 9px; color: var(--muted); font-size: 13px; line-height: 1.55; }
+.proc-steps li::before {
+  content: counter(proc);
+  counter-increment: proc;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 19px; height: 19px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: rgba(212, 175, 90, 0.15);
+  border: 1px solid rgba(212, 175, 90, 0.45);
+  color: var(--gold);
+  font-size: 9px;
+  font-weight: 700;
+}
+.proc-steps { counter-reset: proc; }
+.proc-steps strong { color: var(--text); font-weight: 600; }
+.device {
+  display: inline-block;
+  margin-top: 2px;
+  padding: 0 5px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted-dim);
+  white-space: nowrap;
+}
+.proc-foot {
+  margin-top: auto;
+  padding-top: 12px;
+  color: var(--muted-dim);
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+.notes-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+.note-card {
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(21, 21, 26, 0.65);
+}
+.note-card.warn { border-color: rgba(226, 190, 114, 0.32); background: rgba(226, 190, 114, 0.04); }
+.note-card h4 {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.note-card p { margin-top: 5px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.note-card p strong { color: var(--text); font-weight: 600; }
+
+/* ---------------------------------------------------------------
+   Support and footer
+---------------------------------------------------------------- */
+.support-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 22px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(120deg, rgba(212, 175, 90, 0.07), var(--panel) 55%);
+}
+.support-card h3 { font-family: var(--font-display); font-size: 23px; font-weight: 600; }
+.support-card p { margin-top: 5px; color: var(--muted); font-size: 13px; line-height: 1.6; max-width: 46ch; }
+.contact-links { display: grid; gap: 9px; align-content: center; }
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 14px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: rgba(0, 0, 0, 0.24);
+  text-decoration: none;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.contact-link:hover { border-color: var(--gold); background: rgba(212, 175, 90, 0.07); }
+.contact-link .c-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 32px; height: 32px;
+  border: 1px solid rgba(212, 175, 90, 0.45);
+  border-radius: 50%;
+  color: var(--gold);
+}
+.contact-link .c-label { display: block; color: var(--muted-dim); font-size: 8.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.contact-link .c-value { display: block; color: var(--text); font-size: 13.5px; font-weight: 600; word-break: break-word; }
+
+.site-footer {
+  border-top: 1px solid var(--line-soft);
+  padding: 22px 20px 30px;
+  text-align: center;
+  color: var(--muted-dim);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+.site-footer span { color: var(--gold); }
+
+/* Highlight after search navigation */
+.is-highlighted {
+  border-radius: var(--radius);
+  animation: highlight-fade 1.8s ease-out 1;
+}
+@keyframes highlight-fade {
+  0% { box-shadow: 0 0 0 0 rgba(212, 175, 90, 0); }
+  18% { box-shadow: 0 0 0 3px rgba(212, 175, 90, 0.8); }
+  100% { box-shadow: 0 0 0 0 rgba(212, 175, 90, 0); }
+}
+
+/* ---------------------------------------------------------------
+   Responsive
+---------------------------------------------------------------- */
+@media (min-width: 901px) {
+  .search { order: 2; flex: 0 1 340px; margin-left: 4px; }
+  .site-nav { order: 3; }
+  :root { --header-h: 78px; }
+}
+
+@media (max-width: 980px) {
+  .remote-layout { grid-template-columns: minmax(0, 1fr); gap: 26px; max-width: 560px; }
+  .remote-stage { padding-bottom: 20px; }
+  .remote { width: min(300px, 100%); transform: rotateX(2deg) rotateY(-3deg); }
+  .remote:hover { transform: rotateX(1deg) rotateY(-1deg); }
+  .remote-panel { max-width: 520px; width: 100%; margin: 0 auto; }
+  .support-card { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 820px) {
+  .proc-grid { grid-template-columns: minmax(0, 1fr); }
+  .notes-grid { grid-template-columns: minmax(0, 1fr); }
+  .keypad-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .header-inner { gap: 8px 12px; padding: 9px 14px 10px; }
+  .brand-name { font-size: 15px; letter-spacing: 0.14em; }
+  .brand-sub { font-size: 8px; letter-spacing: 0.26em; }
+  .brand-mark { width: 30px; height: 30px; }
+  .site-nav { gap: 0; }
+  .site-nav a { padding: 7px 8px; font-size: 11.5px; }
+  .section { padding: 38px 16px 42px; }
+  .hero { padding: 40px 16px 10px; }
+  .hero h1 { letter-spacing: 0.05em; }
+  .hero h1 span { letter-spacing: 0.26em; }
+  .remote { padding: 13px 13px 14px; border-radius: 24px; }
+  .hard.round { width: 40px; height: 40px; min-height: 40px; }
+  .nav-cluster { grid-template-columns: minmax(0, 1fr) 84px minmax(0, 1fr); grid-template-rows: 38px 84px 38px; }
+  .nav-ring { width: 84px; height: 84px; }
+  .nav-ring::before { inset: 20px; }
+  .transport-cluster .hard { min-height: 34px; font-size: 8.5px; }
+  .hard-row { margin: 11px 0 9px; }
+  .keypad-card, .proc-card, .support-card { padding: 15px; }
+  .keypad-difference { font-size: 12.5px; }
+  .key-btn { min-height: 54px; padding: 10px 9px; }
+  .key-label { font-size: 10px; letter-spacing: 0.06em; }
+  .key-tag { font-size: 7px; padding: 1px 4px; }
+  .keypad-feedback { min-height: 76px; }
+}
+
+@media (max-width: 380px) {
+  .remote { width: 100%; }
+  .transport-cluster .hard { font-size: 8px; }
+  .site-nav a { font-size: 11px; padding: 6px 6px; }
+  .contact-link .c-value { font-size: 12.5px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .remote, .remote:hover { transform: none; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="#top" aria-label="Solaria Home Cinema, back to top">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <circle cx="12" cy="12" r="3.3"></circle>
+          <path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.2 5.2l2.1 2.1M16.7 16.7l2.1 2.1M5.2 18.8l2.1-2.1M16.7 7.3l2.1-2.1"></path>
+        </svg>
+      </span>
+      <span>
+        <span class="brand-name">SOLARIA</span>
+        <span class="brand-sub">HOME CINEMA</span>
+      </span>
+    </a>
+
+    <div class="search" role="search">
+      <div class="search-field">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="m20 20-3.5-3.5"></path>
+        </svg>
+        <label class="visually-hidden" for="manual-search">Search the manual</label>
+        <input id="manual-search" type="search" placeholder="Search the manual…" autocomplete="off"
+               role="combobox" aria-expanded="false" aria-controls="search-results" aria-autocomplete="list">
+        <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" hidden>×</button>
+      </div>
+      <div class="search-results" id="search-results" role="listbox" aria-label="Search results" hidden></div>
+      <p class="visually-hidden" role="status" id="search-status"></p>
+    </div>
+
+    <nav class="site-nav" aria-label="Manual sections">
+      <a href="#remote">Remote</a>
+      <a href="#keypads">Keypads</a>
+      <a href="#operation">Operation</a>
+      <a href="#support">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <!-- Welcome -->
+  <div class="hero" id="top">
+    <p class="eyebrow">Interactive reference manual</p>
+    <h1>SOLARIA<span>HOME CINEMA</span></h1>
+    <p class="welcome">A short, practical guide to your Crestron-controlled cinema. Explore the TSR-310 remote, check what each wall keypad button does, and follow the correct startup and shutdown routines.</p>
+    <div class="hero-rule" aria-hidden="true"></div>
+  </div>
+
+  <!-- Remote -->
+  <section class="section" id="remote" aria-labelledby="remote-title">
+    <div class="section-head">
+      <p class="eyebrow">Handheld control</p>
+      <h2 id="remote-title">Crestron TSR-310 remote</h2>
+      <p class="section-intro">Select any screen item or physical button for a short explanation. <strong>This manual is a visual demonstration and does not connect to or control the real cinema equipment.</strong></p>
+    </div>
+
+    <div class="remote-layout">
+      <div class="remote-stage">
+        <div class="remote-shadow" aria-hidden="true"></div>
+        <div class="remote" aria-label="Simulated Crestron TSR-310 remote control">
+          <div class="remote-top" aria-hidden="true"><span></span><span></span><span></span></div>
+
+          <div class="remote-screen-wrap">
+            <div class="remote-screen" id="remote-screen" tabindex="0" aria-label="Simulated remote screen. Use the left and right arrow keys, the navigation ring, the page dots or a swipe to change page.">
+              <div class="screen-status">
+                <span id="screen-title">QUICK ACTIONS</span>
+                <span class="screen-status-right">
+                  <span>10:21</span>
+                  <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M12 18.2a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8Zm0-3.7c-1.6 0-3.1.7-4.2 1.8l1.3 1.3A4.3 4.3 0 0 1 12 16.3c1.1 0 2.2.5 2.9 1.3l1.3-1.3A5.9 5.9 0 0 0 12 14.5Zm0-4.5c-2.8 0-5.3 1.1-7.2 3l1.3 1.3A8.5 8.5 0 0 1 12 12c2.3 0 4.4 1 5.9 2.3l1.3-1.3A10.1 10.1 0 0 0 12 10Zm0-4.5c-4 0-7.7 1.6-10.3 4.2l1.3 1.3A12.8 12.8 0 0 1 12 8c3.4 0 6.5 1.3 8.7 3.5l1.3-1.3A14.3 14.3 0 0 0 12 5.5Z"/></svg>
+                  <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="7" y="4" width="10" height="16" rx="2"></rect><path d="M10 7h4"></path></svg>
+                </span>
+              </div>
+
+              <div class="screen-body">
+                <!-- MEDIA -->
+                <div class="screen-page" id="remote-page-media" role="tabpanel" aria-labelledby="tab-media" data-page="media" hidden>
+                  <p class="screen-list-title">MY SOURCES</p>
+                  <button type="button" class="screen-row" data-screen-action="source" data-source="Apple TV 4K">
+                    <span class="row-icon tv" aria-hidden="true">tv</span><span>Apple TV 4K</span>
+                  </button>
+                  <button type="button" class="screen-row" data-screen-action="source" data-source="K-Scape">
+                    <span class="row-icon" aria-hidden="true">◍</span><span>K-Scape</span>
+                  </button>
+                  <button type="button" class="screen-row" data-screen-action="source" data-source="Wiim Pro Plus">
+                    <span class="row-icon tv" aria-hidden="true">tv</span><span>Wiim Pro Plus</span>
+                  </button>
+                  <p class="screen-note">Sources as listed on this remote.</p>
+                </div>
+
+                <!-- QUICK ACTIONS -->
+                <div class="screen-page is-active" id="remote-page-quick" role="tabpanel" aria-labelledby="tab-quick" data-page="quick">
+                  <p class="screen-list-title">MY ACTIONS</p>
+                  <button type="button" class="screen-row" data-screen-action="activate">
+                    <span class="row-icon" aria-hidden="true">⚡</span><span>Activate Cinema</span>
+                  </button>
+                  <button type="button" class="screen-row" data-screen-action="shutdown">
+                    <span class="row-icon" aria-hidden="true">⚡</span><span>Shutdown Cinema</span>
+                  </button>
+                  <button type="button" class="screen-row" data-screen-action="music">
+                    <span class="row-icon" aria-hidden="true">⚡</span><span>Play Music</span>
+                  </button>
+                </div>
+
+                <!-- LIGHTING -->
+                <div class="screen-page" id="remote-page-lighting" role="tabpanel" aria-labelledby="tab-lighting" data-page="lighting" hidden>
+                  <p class="screen-list-title">MY SCENES</p>
+                  <button type="button" class="screen-row" data-screen-action="scene" data-scene="All Off">
+                    <span class="row-icon" aria-hidden="true">○</span><span>All Off</span>
+                  </button>
+                  <button type="button" class="screen-row" data-screen-action="scene" data-scene="All On">
+                    <span class="row-icon" aria-hidden="true">●</span><span>All On</span>
+                  </button>
+                  <button type="button" class="screen-row" data-screen-action="scene" data-scene="Mood Lights">
+                    <span class="row-icon" aria-hidden="true">◉</span><span>Mood Lights</span>
+                  </button>
+                  <button type="button" class="screen-row" data-screen-action="scene" data-scene="Music Lights">
+                    <span class="row-icon" aria-hidden="true">◉</span><span>Music Lights</span>
+                  </button>
+                  <div class="brightness-row">
+                    <button type="button" class="brightness-btn" data-control="brightness-down" aria-label="Brightness down">☼ <span class="brightness-label" aria-hidden="true">Dim</span></button>
+                    <button type="button" class="brightness-btn" data-control="brightness-up" aria-label="Brightness up">☀ <span class="brightness-label" aria-hidden="true">Bright</span></button>
+                  </div>
+                </div>
+
+                <p class="visually-hidden" id="screen-announcer" role="status" aria-live="polite"></p>
+                <div class="screen-overlay" id="screen-overlay" role="region" aria-label="Remote screen explanation" hidden>
+                  <div class="overlay-top">
+                    <button type="button" class="overlay-back" id="overlay-close" aria-label="Close screen message and return to the remote page">‹ Back</button>
+                    <span class="overlay-tag" id="overlay-tag">SIMULATION</span>
+                  </div>
+                  <p class="overlay-title" id="overlay-title"></p>
+                  <p class="overlay-text" id="overlay-text"></p>
+                  <p class="overlay-note" id="overlay-note">Manual demonstration only – no cinema equipment is controlled.</p>
+                  <button type="button" class="overlay-close" id="overlay-dismiss">Return to remote</button>
+                </div>
+
+                <div class="screen-toast" id="screen-toast" aria-hidden="true" hidden></div>
+
+                <div class="volume-overlay" id="volume-overlay" hidden aria-hidden="true">
+                  <div class="volume-head"><span id="volume-label">VOLUME</span><span id="volume-value">24</span></div>
+                  <div class="volume-bar"><span id="volume-bar-fill"></span></div>
+                  <p class="volume-note">Simulated level only – no real audio equipment is controlled.</p>
+                </div>
+              </div>
+
+              <div class="screen-dots" role="tablist" aria-label="Remote screen pages">
+                <button type="button" class="screen-dot" id="tab-media" data-page-target="media" role="tab" aria-selected="false" aria-controls="remote-page-media" aria-label="Media page"></button>
+                <button type="button" class="screen-dot" id="tab-quick" data-page-target="quick" role="tab" aria-selected="true" aria-controls="remote-page-quick" aria-label="Quick Actions page"></button>
+                <button type="button" class="screen-dot" id="tab-lighting" data-page-target="lighting" role="tab" aria-selected="false" aria-controls="remote-page-lighting" aria-label="Lighting page"></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Round hard buttons -->
+          <div class="hard-row">
+            <button type="button" class="hard round power" data-control="power" aria-label="Red power button: completes the shutdown after standby">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 3.5v8"></path><path d="M6.4 6.6a8 8 0 1 0 11.2 0"></path></svg>
+            </button>
+            <button type="button" class="hard round" data-control="microphone" aria-label="Microphone button: not configured">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"></path></svg>
+            </button>
+            <button type="button" class="hard round" data-control="menu-system" aria-label="System menu button">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+            </button>
+          </div>
+
+          <!-- Navigation and volume cluster -->
+          <div class="nav-cluster">
+            <button type="button" class="hard" data-control="volume-up" aria-label="Volume up: raises the volume">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z"></path><path d="M16 9.4a3.7 3.7 0 0 1 0 5.2M18.6 7a7.2 7.2 0 0 1 0 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+            </button>
+            <button type="button" class="hard label" data-control="guide" aria-label="Guide button: not configured">GUIDE</button>
+            <button type="button" class="hard" data-control="arrow-up" aria-label="Up arrow button">▲</button>
+
+            <button type="button" class="hard" data-control="mute" aria-label="Mute button">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z"></path><path d="m16 9.5 5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+            </button>
+            <div class="ring-cell">
+              <button type="button" class="nav-ring" data-control="navigation-ring" aria-label="Navigation ring with centre OK button. Use the ring for directions and the centre for OK.">
+                <span class="ring-dot n" aria-hidden="true"></span>
+                <span class="ring-dot s" aria-hidden="true"></span>
+                <span class="ring-dot w" aria-hidden="true"></span>
+                <span class="ring-dot e" aria-hidden="true"></span>
+                <span class="ring-ok-label" aria-hidden="true">OK</span>
+              </button>
+            </div>
+            <button type="button" class="hard" data-control="info" aria-label="Information button: not configured">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5M12 8h.01" stroke-linecap="round"></path></svg>
+            </button>
+
+            <button type="button" class="hard" data-control="volume-down" aria-label="Volume down: lowers the volume">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z"></path><path d="M16 11.8h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+            </button>
+            <button type="button" class="hard label" data-control="menu" aria-label="Menu button">MENU</button>
+            <button type="button" class="hard" data-control="arrow-down" aria-label="Down arrow button">▼</button>
+          </div>
+
+          <!-- Transport cluster -->
+          <div class="transport-cluster">
+            <button type="button" class="hard" data-control="exit">EXIT</button>
+            <button type="button" class="hard" data-control="colour" aria-label="Colour buttons. In this manual simulation they cycle the remote screen pages.">
+              <span class="dot-4" aria-hidden="true"><span style="background:#e04b4b"></span><span style="background:#4fae6b"></span><span style="background:#d9b84a"></span><span style="background:#4a86cf"></span></span>
+            </button>
+            <button type="button" class="hard" data-control="last" aria-label="Last button">LAST</button>
+
+            <button type="button" class="hard glyph" data-control="rewind" aria-label="Rewind button">◀◀</button>
+            <button type="button" class="hard glyph" data-control="play" aria-label="Play button: starts or resumes playback">▶</button>
+            <button type="button" class="hard glyph" data-control="fast-forward" aria-label="Fast forward button">▶▶</button>
+
+            <button type="button" class="hard glyph" data-control="previous" aria-label="Previous button">|◀</button>
+            <button type="button" class="hard glyph" data-control="pause" aria-label="Pause button: pauses playback">❚❚</button>
+            <button type="button" class="hard glyph" data-control="next" aria-label="Next button">▶|</button>
+
+            <button type="button" class="hard glyph" data-control="stop" aria-label="Stop button: stops playback">■</button>
+            <button type="button" class="hard" data-control="dvr" aria-label="DVR button: not configured">DVR</button>
+            <button type="button" class="hard" data-control="record" aria-label="Record button: not configured"><span class="rec-dot" aria-hidden="true"></span></button>
+          </div>
+
+          <p class="remote-caption">TSR-310</p>
+        </div>
+      </div>
+
+      <div class="remote-panel">
+        <div class="guide-card" id="guide-card" data-tone="neutral" aria-live="polite">
+          <p class="guide-kicker" id="guide-kicker">Remote guide</p>
+          <h3 id="guide-title">Explore the controls</h3>
+          <p class="guide-body" id="guide-body">Choose a button on the remote or an item on its screen. Pressing a button also explains it on the remote screen. Only Microphone, GUIDE, Information, DVR and Record are not configured for this installation.</p>
+          <p class="guide-status" id="guide-status">REFERENCE</p>
+        </div>
+
+        <div class="page-switch">
+          <span class="panel-label">Remote screen pages</span>
+          <div class="page-chips">
+            <button type="button" class="chip-btn page-chip" data-page-target="media">Media</button>
+            <button type="button" class="chip-btn page-chip" data-page-target="quick">Quick Actions</button>
+            <button type="button" class="chip-btn page-chip" data-page-target="lighting">Lighting</button>
+          </div>
+          <p class="page-hint">Change page with the navigation ring (<kbd>◀</kbd> <kbd>▶</kbd>), the coloured button, the dots above, or <kbd>←</kbd> <kbd>→</kbd> when the remote has focus. On a touchscreen you can swipe the screen.</p>
+        </div>
+
+        <div class="note-card" id="remote-charging">
+          <h4>Charging the remote</h4>
+          <p>Place the TSR-310 in its charging dock. The centre <strong>OK</strong> button lights <strong style="color:#e7a34b">orange</strong> while charging. When the remote is fully charged, the indicator just above the centre button lights <strong style="color:#8fd7b0">green</strong>.</p>
+        </div>
+
+        <details class="reference">
+          <summary>Full button reference</summary>
+          <div class="reference-inner">
+            <div class="ref-groups">
+              <div>
+                <h4>Confirmed</h4>
+                <ul>
+                  <li><span>Red power button</span><span class="ref-badge ok">CONFIRMED</span></li>
+                  <li><span>Volume up / volume down</span><span class="ref-badge ok">CONFIRMED</span></li>
+                  <li><span>Quick Actions: Activate Cinema, Shutdown Cinema, Play Music</span><span class="ref-badge ok">CONFIRMED</span></li>
+                  <li><span>Lighting scenes: All Off, All On, Mood Lights, Music Lights</span><span class="ref-badge ok">CONFIRMED</span></li>
+                  <li><span>Media list: Apple TV 4K, K-Scape, Wiim Pro Plus</span><span class="ref-badge ok">CONFIRMED</span></li>
+                </ul>
+              </div>
+              <div>
+                <h4>Not configured</h4>
+                <ul>
+                  <li><span>Microphone</span><span class="ref-badge">NOT CONFIGURED</span></li>
+                  <li><span>GUIDE</span><span class="ref-badge">NOT CONFIGURED</span></li>
+                  <li><span>Information (ⓘ)</span><span class="ref-badge">NOT CONFIGURED</span></li>
+                  <li><span>DVR</span><span class="ref-badge">NOT CONFIGURED</span></li>
+                  <li><span>Record</span><span class="ref-badge">NOT CONFIGURED</span></li>
+                </ul>
+              </div>
+            </div>
+            <p class="ref-note">Only Microphone, GUIDE, Information, DVR and Record are not configured for this installation. The other remote buttons operate as their labels and symbols indicate. The coloured button's page-cycling behaviour is a custom feature of this manual's simulation, not a programmed function of the physical remote.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Keypads -->
+  <section class="section" id="keypads" aria-labelledby="keypads-title">
+    <div class="section-head">
+      <p class="eyebrow">Wall controls</p>
+      <h2 id="keypads-title">The two keypads</h2>
+      <p class="section-intro">The keypads share the same labels but do not share the same job. The internal black keypad controls the cinema; the external white keypad is for lighting.</p>
+    </div>
+
+    <div class="keypad-grid">
+      <article class="keypad-card" id="internal-keypad">
+        <div class="keypad-head">
+          <h3>Internal black keypad</h3>
+          <span class="keypad-location">Inside the cinema</span>
+        </div>
+        <p class="keypad-purpose">Cinema functions and lighting.</p>
+        <div class="plate plate-black" role="group" aria-label="Internal black keypad buttons">
+          <button type="button" class="key-btn" data-keypad="internal" data-key="cleaning" aria-describedby="internal-keypad-feedback">
+            <span class="key-led" aria-hidden="true"></span>
+            <span class="key-label">Cleaning Lights</span>
+            <span class="key-tags"><span class="key-tag lights">Lights</span></span>
+            <span class="key-fill" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="key-btn" data-keypad="internal" data-key="mood" aria-describedby="internal-keypad-feedback">
+            <span class="key-led" aria-hidden="true"></span>
+            <span class="key-label">Mood Lights</span>
+            <span class="key-tags"><span class="key-tag lights">Lights</span></span>
+            <span class="key-fill" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="key-btn" data-keypad="internal" data-key="activate" aria-label="Activate Cinema, press and hold about two seconds" aria-describedby="internal-keypad-feedback">
+            <span class="key-led" aria-hidden="true"></span>
+            <span class="key-label">Activate Cinema</span>
+            <span class="key-tags"><span class="key-tag hold">Hold 2s</span></span>
+            <span class="key-fill" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="key-btn" data-keypad="internal" data-key="music" aria-label="Music Mode, press and hold about two seconds" aria-describedby="internal-keypad-feedback">
+            <span class="key-led" aria-hidden="true"></span>
+            <span class="key-label">Music Mode</span>
+            <span class="key-tags"><span class="key-tag hold">Hold 2s</span></span>
+            <span class="key-fill" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="key-btn" data-keypad="internal" data-key="shutdown" aria-label="Shutdown Cinema, press and hold about two seconds" aria-describedby="internal-keypad-feedback">
+            <span class="key-led" aria-hidden="true"></span>
+            <span class="key-label">Shutdown Cinema</span>
+            <span class="key-tags"><span class="key-tag hold">Hold 2s</span><span class="key-tag">Standby</span></span>
+            <span class="key-fill" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="keypad-feedback" id="internal-keypad-feedback" role="status" aria-live="polite" aria-atomic="true" data-tone="idle">
+          <span class="kf-title">Try a button</span>
+          <span class="kf-text">Press a button to see its function here and on the simulated remote screen.</span>
+          <span class="kf-note">Demonstration only – no equipment is controlled.</span>
+        </div>
+        <p class="keypad-note"><strong>Activate Cinema</strong> starts the system. <strong>Music Mode</strong> activates music mode; choose a music source afterwards. <strong>Shutdown Cinema</strong> places the cinema equipment into standby. Hold each of these for about two seconds.</p>
+      </article>
+
+      <article class="keypad-card" id="external-keypad">
+        <div class="keypad-head">
+          <h3>External white keypad</h3>
+          <span class="keypad-location">Outside the cinema</span>
+        </div>
+        <p class="keypad-purpose">Lighting only.</p>
+        <div class="plate plate-white" role="group" aria-label="External white keypad buttons">
+          <button type="button" class="key-btn" data-keypad="external" data-key="cleaning" aria-describedby="external-keypad-feedback">
+            <span class="key-led" aria-hidden="true"></span>
+            <span class="key-label">Cleaning Lights</span>
+            <span class="key-tags"><span class="key-tag lights">Lights</span></span>
+            <span class="key-fill" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="key-btn" data-keypad="external" data-key="mood" aria-describedby="external-keypad-feedback">
+            <span class="key-led" aria-hidden="true"></span>
+            <span class="key-label">Mood Lights</span>
+            <span class="key-tags"><span class="key-tag lights">Lights</span></span>
+            <span class="key-fill" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="key-btn is-disabled" data-keypad="external" data-key="activate" aria-disabled="true" aria-label="Activate Cinema, disabled on the external white keypad" aria-describedby="external-keypad-feedback">
+            <span class="key-led" aria-hidden="true"></span>
+            <span class="key-label">Activate Cinema</span>
+            <span class="key-tags"><span class="key-tag off">Disabled</span></span>
+            <span class="key-fill" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="key-btn" data-keypad="external" data-key="music" aria-describedby="external-keypad-feedback">
+            <span class="key-led" aria-hidden="true"></span>
+            <span class="key-label">Music Mode</span>
+            <span class="key-tags"><span class="key-tag lights">Music Lights</span></span>
+            <span class="key-fill" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="key-btn" data-keypad="external" data-key="shutdown" aria-describedby="external-keypad-feedback">
+            <span class="key-led" aria-hidden="true"></span>
+            <span class="key-label">Shutdown Cinema</span>
+            <span class="key-tags"><span class="key-tag lights">Lights off only</span></span>
+            <span class="key-fill" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="keypad-feedback" id="external-keypad-feedback" role="status" aria-live="polite" aria-atomic="true" data-tone="idle">
+          <span class="kf-title">Try a button</span>
+          <span class="kf-text">Press a button to see its lighting function here and on the simulated remote screen.</span>
+          <span class="kf-note">Demonstration only – no equipment is controlled.</span>
+        </div>
+        <p class="keypad-note"><strong>Music Mode:</strong> selects the Music Lights scene. <strong>Cleaning routine:</strong> press Cleaning Lights, then press Shutdown Cinema on this keypad to switch the lights off. Here, Shutdown Cinema switches off the lights only.</p>
+      </article>
+    </div>
+
+    <p class="keypad-difference"><strong>Don't mix them up:</strong> Shutdown Cinema on the external white keypad switches off the lights only. To shut down the cinema equipment, use Shutdown Cinema on the internal black keypad or the remote.</p>
+  </section>
+
+  <!-- Operation -->
+  <section class="section" id="operation" aria-labelledby="operation-title">
+    <div class="section-head">
+      <p class="eyebrow">Everyday use</p>
+      <h2 id="operation-title">Operating instructions</h2>
+      <p class="section-intro">Use the internal black keypad or the remote for cinema functions. Lighting can be controlled from either keypad or the remote's Lighting page.</p>
+    </div>
+
+    <div class="proc-grid">
+      <article class="proc-card" id="proc-start">
+        <p class="proc-num">01 · Startup</p>
+        <h3>Start the cinema</h3>
+        <ol class="proc-steps">
+          <li><span>Press and hold <strong>Activate Cinema</strong> for about two seconds. <span class="device">Internal black keypad</span></span></li>
+          <li><span>Or choose <strong>Activate Cinema</strong> from Quick Actions on the remote. <span class="device">Remote</span></span></li>
+          <li><span>Select a source from the remote's <strong>Media</strong> page.</span></li>
+        </ol>
+        <p class="proc-foot">Activate Cinema is disabled on the external white keypad.</p>
+      </article>
+
+      <article class="proc-card" id="proc-music">
+        <p class="proc-num">02 · Music</p>
+        <h3>Music Mode</h3>
+        <ol class="proc-steps">
+          <li><span>Press and hold <strong>Music Mode</strong> for about two seconds. <span class="device">Internal black keypad</span></span></li>
+          <li><span>Select the music source you want to listen to.</span></li>
+          <li><span>The projector may briefly illuminate and then switch itself off. This is normal.</span></li>
+        </ol>
+        <p class="proc-foot">If the projector is still on after about two minutes, try the Play Music quick action.</p>
+      </article>
+
+      <article class="proc-card" id="proc-shutdown">
+        <p class="proc-num">03 · Shutdown</p>
+        <h3>Shut down the cinema</h3>
+        <ol class="proc-steps">
+          <li><span>On the remote, open Quick Actions and press <strong>Shutdown Cinema</strong>. The equipment enters standby. <span class="device">Remote</span></span></li>
+          <li><span>Press the <strong>red power button</strong> to complete the shutdown. <span class="device">Remote</span></span></li>
+          <li><span>Or press and hold <strong>Shutdown Cinema</strong> for about two seconds. <span class="device">Internal black keypad</span></span></li>
+        </ol>
+        <p class="proc-foot">The external white keypad cannot shut down the cinema equipment.</p>
+      </article>
+    </div>
+
+    <div class="notes-grid">
+      <div class="note-card" id="projector-note">
+        <h4>Projector cooling</h4>
+        <p>The projector may take approximately <strong>one minute</strong> to switch off while it completes its cooling process. This is normal. Do not disconnect the projector's power during shutdown.</p>
+      </div>
+      <div class="note-card warn">
+        <h4>Projector still on in Music Mode?</h4>
+        <p>If it has not switched off after approximately <strong>two minutes</strong>, try the <strong>Play Music</strong> quick action on the remote. Allow the projector to finish its shutdown process.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Support -->
+  <section class="section" id="support" aria-labelledby="support-title">
+    <div class="section-head">
+      <p class="eyebrow">Installer support</p>
+      <h2 id="support-title">Need help?</h2>
+    </div>
+    <div class="support-card">
+      <div>
+        <h3>Contact the installer</h3>
+        <p>If the system does not behave as described, or you need a control confirmed, contact installer support directly.</p>
+      </div>
+      <div class="contact-links">
+        <a class="contact-link" href="mailto:sam.avio@gmail.com">
+          <span class="c-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg>
+          </span>
+          <span><span class="c-label">Email</span><span class="c-value">sam.avio@gmail.com</span></span>
+        </a>
+        <a class="contact-link" href="tel:0728606070">
+          <span class="c-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"></path></svg>
+          </span>
+          <span><span class="c-label">Phone</span><span class="c-value">0728606070</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <span>Solaria Home Cinema</span> · Interactive reference manual · Crestron TSR-310
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var NOT_CONFIGURED = "This function is not configured.";
+  var SIM_NOTE = "Manual demonstration only \u2013 no cinema equipment is controlled.";
+
+  /* -------------------------------------------------------------
+     Shared UI: guide panel, screen overlay, toast, announcements
+  ------------------------------------------------------------- */
+  var guideCard = document.getElementById("guide-card");
+  var guideKicker = document.getElementById("guide-kicker");
+  var guideTitle = document.getElementById("guide-title");
+  var guideBody = document.getElementById("guide-body");
+  var guideStatus = document.getElementById("guide-status");
+
+  function setGuide(status, title, body) {
+    var labels = { confirmed: "Confirmed", nc: "Not configured", neutral: "Reference" };
+    guideCard.setAttribute("data-tone", status in labels ? status : "neutral");
+    guideKicker.textContent = status === "nc" ? "Remote control" : "Remote guide";
+    guideTitle.textContent = title;
+    guideBody.textContent = body;
+    guideStatus.textContent = labels[status] || "Reference";
+  }
+
+  var screenTitle = document.getElementById("screen-title");
+  var screenAnnouncer = document.getElementById("screen-announcer");
+  var overlay = document.getElementById("screen-overlay");
+  var overlayTitle = document.getElementById("overlay-title");
+  var overlayText = document.getElementById("overlay-text");
+  var overlayTag = document.getElementById("overlay-tag");
+  var overlayNote = document.getElementById("overlay-note");
+  var toast = document.getElementById("screen-toast");
+  var screen = document.getElementById("remote-screen");
+  var remote = document.querySelector(".remote");
+
+  var overlayTimer = null;
+  var toastTimer = null;
+  var overlayPaused = false;
+  var screenStateBeforeMessage = null;
+
+  function announce(message) {
+    if (!screenAnnouncer) return;
+    screenAnnouncer.textContent = "";
+    window.setTimeout(function () { screenAnnouncer.textContent = message; }, 30);
+  }
+
+  // Remembers the normal screen state so a message can return to it afterwards.
+  function captureScreenState() {
+    if (!overlay.hidden) return;
+    screenStateBeforeMessage = {
+      page: currentPage,
+      title: screenTitle.textContent,
+      volume: !volumeOverlay.hidden,
+      volumeLabel: volumeLabel ? volumeLabel.textContent : ""
+    };
+  }
+
+  function restoreScreenState() {
+    hideOverlay();
+    var state = screenStateBeforeMessage;
+    screenStateBeforeMessage = null;
+    if (!state) return;
+    if (state.page !== currentPage) showPage(state.page);
+    if (state.volume && state.volumeLabel) showVolumePanel(state.volumeLabel, true);
+  }
+
+  function queueOverlayHide(delay) {
+    window.clearTimeout(overlayTimer);
+    if (overlayPaused) return;
+    overlayTimer = window.setTimeout(restoreScreenState, delay);
+  }
+
+  function showOverlay(title, text, options) {
+    options = options || {};
+    window.clearTimeout(overlayTimer);
+    captureScreenState();
+    overlayTitle.textContent = title;
+    overlayText.textContent = text;
+    overlayTag.textContent = options.tag || "SIMULATION";
+    overlayTag.classList.toggle("is-warn", options.tone === "nc");
+    overlayNote.textContent = options.note || SIM_NOTE;
+    overlay.hidden = false;
+    overlay.scrollTop = 0;
+    announce(title + ". " + text);
+    if (options.autoHide !== false) queueOverlayHide(options.delay || 8000);
+  }
+
+  function hideOverlay() {
+    window.clearTimeout(overlayTimer);
+    overlay.hidden = true;
+  }
+
+  function showToast(message, duration) {
+    toast.textContent = message;
+    toast.hidden = false;
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(function () { toast.hidden = true; }, duration || 2400);
+  }
+
+  // Reading pauses the automatic return so nothing disappears mid-sentence.
+  overlay.addEventListener("pointerenter", function () {
+    overlayPaused = true;
+    window.clearTimeout(overlayTimer);
+  });
+  overlay.addEventListener("pointerleave", function () {
+    if (!overlayPaused) return;
+    overlayPaused = false;
+    if (!overlay.hidden) queueOverlayHide(8000);
+  });
+  overlay.addEventListener("focusin", function () {
+    overlayPaused = true;
+    window.clearTimeout(overlayTimer);
+  });
+  overlay.addEventListener("focusout", function (event) {
+    if (overlay.contains(event.relatedTarget)) return;
+    if (!overlayPaused) return;
+    overlayPaused = false;
+    if (!overlay.hidden) queueOverlayHide(8000);
+  });
+  document.getElementById("overlay-close").addEventListener("click", restoreScreenState);
+  document.getElementById("overlay-dismiss").addEventListener("click", function () {
+    restoreScreenState();
+    screen.focus({ preventScroll: true });
+  });
+
+  /* -------------------------------------------------------------
+     Remote screen pages
+  ------------------------------------------------------------- */
+  var PAGE_ORDER = ["media", "quick", "lighting"];
+  var PAGES = {
+    media: {
+      title: "MEDIA",
+      heading: "Media page",
+      text: "The sources listed on this remote: Apple TV 4K, K-Scape and Wiim Pro Plus. Select a source with the physical controls or on screen."
+    },
+    quick: {
+      title: "QUICK ACTIONS",
+      heading: "Quick Actions page",
+      text: "Activate Cinema, Shutdown Cinema and Play Music. The red power button on the remote completes the shutdown."
+    },
+    lighting: {
+      title: "LIGHTING",
+      heading: "Lighting page",
+      text: "Lighting scenes: All Off, All On, Mood Lights and Music Lights. The two brightness buttons adjust lighting brightness."
+    }
+  };
+
+  var currentPage = "quick";
+  var pagePanels = Array.prototype.slice.call(document.querySelectorAll("[data-page]"));
+  var pageTabs = Array.prototype.slice.call(document.querySelectorAll(".screen-dot"));
+  var pageChips = Array.prototype.slice.call(document.querySelectorAll(".page-chip"));
+
+  function showPage(name) {
+    if (!PAGES[name]) return;
+    var changed = name !== currentPage;
+    currentPage = name;
+
+    pagePanels.forEach(function (panel) {
+      var active = panel.getAttribute("data-page") === name;
+      panel.hidden = !active;
+      panel.classList.toggle("is-active", active);
+      panel.classList.remove("is-entering");
+      if (active && changed) panel.classList.add("is-entering");
+    });
+    pageTabs.forEach(function (tab) {
+      tab.setAttribute("aria-selected", tab.getAttribute("data-page-target") === name ? "true" : "false");
+    });
+    pageChips.forEach(function (chip) {
+      chip.setAttribute("aria-current", chip.getAttribute("data-page-target") === name ? "true" : "false");
+    });
+    screenTitle.textContent = PAGES[name].title;
+    hideOverlay();
+  }
+
+  function goToPage(name, note) {
+    showPage(name);
+    if (!PAGES[name]) return;
+    setGuide("neutral", PAGES[name].heading, note || PAGES[name].text);
+    showToast("PAGE \u00b7 " + PAGES[name].title, 2000);
+    announce("Remote screen page: " + PAGES[name].title + ". " + PAGES[name].text);
+  }
+
+  function stepPage(direction) {
+    var index = PAGE_ORDER.indexOf(currentPage);
+    var next = PAGE_ORDER[(index + direction + PAGE_ORDER.length) % PAGE_ORDER.length];
+    goToPage(next);
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-page-target]"), function (button) {
+    button.addEventListener("click", function () {
+      var name = button.getAttribute("data-page-target");
+      if (button.classList.contains("page-chip")) {
+        goToPage(name);
+      } else {
+        showPage(name);
+        announce(PAGES[name].heading + " selected.");
+      }
+    });
+  });
+
+  remote.addEventListener("keydown", function (event) {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    if (!event.target.closest("#remote-screen, .screen-dots, .nav-cluster")) return;
+    event.preventDefault();
+    stepPage(event.key === "ArrowRight" ? 1 : -1);
+  });
+
+  // Optional swipe navigation on touchscreens.
+  var touchStartX = null;
+  var touchStartY = null;
+  screen.addEventListener("touchstart", function (event) {
+    if (event.touches.length !== 1) { touchStartX = null; return; }
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
+  }, { passive: true });
+  screen.addEventListener("touchend", function (event) {
+    if (touchStartX === null || !event.changedTouches.length) return;
+    var dx = event.changedTouches[0].clientX - touchStartX;
+    var dy = event.changedTouches[0].clientY - touchStartY;
+    touchStartX = null;
+    if (Math.abs(dx) < 36 || Math.abs(dx) < Math.abs(dy) * 1.4) return;
+    stepPage(dx < 0 ? 1 : -1);
+  }, { passive: true });
+
+  /* -------------------------------------------------------------
+     Simulated volume (no real audio equipment)
+  ------------------------------------------------------------- */
+  var volume = 24;
+  var muted = false;
+  var volumeOverlay = document.getElementById("volume-overlay");
+  var volumeLabel = document.getElementById("volume-label");
+  var volumeValue = document.getElementById("volume-value");
+  var volumeFill = document.getElementById("volume-bar-fill");
+  var volumeTimer = null;
+
+  function showVolumePanel(label, keepOpen) {
+    volumeLabel.textContent = label;
+    volumeValue.textContent = String(volume);
+    volumeFill.style.width = volume + "%";
+    volumeOverlay.hidden = false;
+    window.clearTimeout(volumeTimer);
+    if (!keepOpen) {
+      volumeTimer = window.setTimeout(function () { volumeOverlay.hidden = true; }, 3600);
+    }
+  }
+
+  function changeVolume(delta) {
+    volume = Math.max(0, Math.min(100, volume + delta));
+    muted = false;
+    hideOverlay();
+    showVolumePanel(delta > 0 ? "VOLUME UP" : "VOLUME DOWN");
+    setGuide("confirmed", delta > 0 ? "Volume up" : "Volume down",
+      "Adjusts the volume. The level shown on this demonstration screen is illustrative only and does not change the real audio processor.");
+    announce((delta > 0 ? "Volume up" : "Volume down") + ". Simulated level " + volume + " out of 100. No real audio equipment is controlled.");
+  }
+
+  function toggleMute() {
+    muted = !muted;
+    volumeOverlay.hidden = true;
+    showOverlay("MUTE", muted
+      ? "Mutes the audio. The mute control is intended to silence the cinema audio; press it again to restore sound."
+      : "Restores the audio after mute. The mute control silences and restores the cinema audio.",
+      { tag: muted ? "SIMULATED \u00b7 MUTED" : "SIMULATED \u00b7 SOUND ON" });
+    setGuide("confirmed", "Mute", "Intended to mute or restore the cinema audio. No actual audio equipment is controlled by this manual.");
+    showToast(muted ? "Muted (demonstration)" : "Sound on (demonstration)", 2600);
+  }
+
+  /* -------------------------------------------------------------
+     Simulated shutdown sequence
+  ------------------------------------------------------------- */
+  var shutdownStarted = false;
+
+  function pressPower() {
+    if (shutdownStarted) {
+      shutdownStarted = false;
+      showOverlay("SHUTDOWN COMPLETE",
+        "The red power button has completed the shutdown sequence. Allow the projector approximately one minute to finish cooling and switch off. Do not disconnect the equipment during shutdown.",
+        { tag: "CONFIRMED SEQUENCE", note: "Simulated sequence \u2013 the real cinema is not controlled." });
+      setGuide("confirmed", "Red power button", "Completes the shutdown. The projector may take approximately one minute to switch off.");
+    } else {
+      showOverlay("RED POWER BUTTON",
+        "This button completes the shutdown. First open Quick Actions and press Shutdown Cinema to enter standby, then press this red power button to finish.",
+        { tag: "CONFIRMED SEQUENCE", note: "Simulated sequence \u2013 the real cinema is not controlled." });
+      setGuide("confirmed", "Red power button", "This completes the shutdown sequence. Begin with Shutdown Cinema in Quick Actions.");
+    }
+  }
+
+  /* -------------------------------------------------------------
+     Physical remote controls (single definition per button)
+  ------------------------------------------------------------- */
+  var CONTROLS = {
+    "power": { label: "RED POWER BUTTON", unconfigured: false, special: "power" },
+    "volume-up": { label: "VOLUME UP", special: "volume-up" },
+    "volume-down": { label: "VOLUME DOWN", special: "volume-down" },
+    "mute": { label: "MUTE", special: "mute" },
+    "colour": { label: "COLOUR BUTTONS", special: "colour" },
+    "navigation-ring": { label: "NAVIGATION RING", special: "ring" },
+    "menu-system": {
+      label: "MENU (\u2630)",
+      description: "Opens the remote's menu control. This manual does not open or control a real device menu."
+    },
+    "menu": {
+      label: "MENU",
+      description: "Opens the on-screen menu of the selected source. In this manual the button only displays this explanation; it does not open a menu on the real equipment."
+    },
+    "exit": {
+      label: "EXIT",
+      description: "Exits the current screen or menu of the selected source. This manual does not control a connected device."
+    },
+    "arrow-up": {
+      label: "UP ARROW",
+      description: "Moves the selection up. On this remote the navigation ring and the up and down arrows are used for on-screen navigation; they do not open a real device menu."
+    },
+    "arrow-down": {
+      label: "DOWN ARROW",
+      description: "Moves the selection down. On this remote the navigation ring and the up and down arrows are used for on-screen navigation; they do not open a real device menu."
+    },
+    "last": { label: "LAST", description: "Returns to the previous channel or item where supported by the selected source." },
+    "play": { label: "PLAY", description: "Starts or resumes playback of the selected source. This manual does not confirm behaviour for a specific device." },
+    "pause": { label: "PAUSE", description: "Pauses playback of the selected source. This manual does not confirm behaviour for a specific device." },
+    "stop": { label: "STOP", description: "Stops playback of the selected source. This manual does not confirm behaviour for a specific device." },
+    "rewind": { label: "REWIND", description: "Rewinds playback of the selected source where supported." },
+    "fast-forward": { label: "FAST FORWARD", description: "Fast-forwards playback of the selected source where supported." },
+    "previous": { label: "PREVIOUS", description: "Moves to the previous track, chapter or item where supported by the selected source." },
+    "next": { label: "NEXT", description: "Moves to the next track, chapter or item where supported by the selected source." },
+    "brightness-down": { label: "BRIGHTNESS DOWN", description: "Reduces the lighting brightness. The demonstration does not change the real lighting." },
+    "brightness-up": { label: "BRIGHTNESS UP", description: "Increases the lighting brightness. The demonstration does not change the real lighting." },
+    "microphone": { label: "MICROPHONE", unconfigured: true },
+    "guide": { label: "GUIDE", unconfigured: true },
+    "info": { label: "INFORMATION", unconfigured: true },
+    "dvr": { label: "DVR", unconfigured: true },
+    "record": { label: "RECORD", unconfigured: true }
+  };
+
+  function flashPressed(button) {
+    button.classList.add("is-pressed");
+    window.setTimeout(function () { button.classList.remove("is-pressed"); }, 180);
+  }
+
+  function notConfigured(label) {
+    showOverlay(label, NOT_CONFIGURED + " This button has no confirmed function for this installation, so the demonstration does not assign one.",
+      { tag: "NOT CONFIGURED", tone: "nc" });
+    setGuide("nc", label, NOT_CONFIGURED);
+    showToast(NOT_CONFIGURED, 2800);
+  }
+
+  function cyclePages() {
+    var index = PAGE_ORDER.indexOf(currentPage);
+    var next = PAGE_ORDER[(index + 1) % PAGE_ORDER.length];
+    showPage(next);
+    showToast("PAGE \u00b7 " + PAGES[next].title, 2600);
+    setGuide("neutral", "Colour button \u2013 manual simulation",
+      "The coloured button cycles this manual's screens: MEDIA \u2192 QUICK ACTIONS \u2192 LIGHTING. It moved to " + PAGES[next].title +
+      ". This page-cycling behaviour is a custom feature of the manual; the physical coloured buttons are not programmed to do this.");
+    announce("Colour button. Page changed to " + PAGES[next].title + ". This is a custom simulation feature.");
+  }
+
+  function ringDirection(button, event) {
+    if (!event || event.detail === 0) return "ok";
+    var rect = button.getBoundingClientRect();
+    var dx = event.clientX - (rect.left + rect.width / 2);
+    var dy = event.clientY - (rect.top + rect.height / 2);
+    var threshold = rect.width * 0.14;
+    if (Math.abs(dx) < threshold && Math.abs(dy) < threshold) return "ok";
+    if (Math.abs(dx) >= Math.abs(dy)) return dx < 0 ? "left" : "right";
+    return dy < 0 ? "up" : "down";
+  }
+
+  function handleRing(button, event) {
+    var direction = ringDirection(button, event);
+    if (direction === "left" || direction === "right") {
+      stepPage(direction === "right" ? 1 : -1);
+      setGuide("neutral", "Navigation ring \u2013 " + (direction === "right" ? "right" : "left"),
+        "Moved to the " + (direction === "right" ? "next" : "previous") + " page. Left and right on the ring change the remote's screen page in this demonstration.");
+      return;
+    }
+    if (direction === "up" || direction === "down") {
+      showOverlay(direction === "up" ? "UP" : "DOWN",
+        "Moves the selection " + direction + " on the selected source. This manual does not open or control a real device menu.",
+        { tag: "NAVIGATION" });
+      setGuide("confirmed", "Navigation ring \u2013 " + direction, "Moves the on-screen selection " + direction + ". No connected device is controlled by this manual.");
+      return;
+    }
+    showOverlay("OK", "Confirms the highlighted selection on the selected source. The physical centre button also lights orange while the remote is charging in its dock.",
+      { tag: "SELECT" });
+    setGuide("confirmed", "Centre OK", "Confirms the highlighted selection. The centre button lights orange while charging and the indicator above it turns green when fully charged.");
+  }
+
+  function handleControl(button, event) {
+    var key = button.getAttribute("data-control");
+    var control = CONTROLS[key];
+    if (!control) return;
+
+    flashPressed(button);
+
+    if (control.unconfigured) {
+      notConfigured(control.label);
+      return;
+    }
+
+    if (control.special === "power") {
+      pressPower();
+    } else if (control.special === "volume-up") {
+      changeVolume(2);
+    } else if (control.special === "volume-down") {
+      changeVolume(-2);
+    } else if (control.special === "mute") {
+      toggleMute();
+    } else if (control.special === "colour") {
+      cyclePages();
+    } else if (control.special === "ring") {
+      handleRing(button, event);
+    } else {
+      hideOverlay();
+      showOverlay(control.label, control.description, { tag: "CONFIRMED" });
+      setGuide("confirmed", control.label, control.description);
+    }
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-control]"), function (button) {
+    button.addEventListener("click", function (event) {
+      handleControl(button, event);
+    });
+  });
+
+  /* -------------------------------------------------------------
+     Screen actions (Quick Actions, Media sources, Lighting scenes)
+  ------------------------------------------------------------- */
+  screen.addEventListener("click", function (event) {
+    var button = event.target.closest("[data-screen-action]");
+    if (!button) return;
+    var action = button.getAttribute("data-screen-action");
+
+    if (action === "activate") {
+      shutdownStarted = false;
+      showOverlay("ACTIVATE CINEMA", "Quick action that starts the cinema system. Choose a source from the Media page when ready.",
+        { tag: "CONFIRMED QUICK ACTION" });
+      setGuide("confirmed", "Activate Cinema", "Starts the cinema system. Choose a source from the Media page when ready.");
+    } else if (action === "shutdown") {
+      shutdownStarted = true;
+      showOverlay("STANDBY INITIATED",
+        "Shutdown Cinema initiates standby for the cinema equipment. Then press the red power button on the remote to complete the shutdown. The projector may take approximately one minute to cool.",
+        { tag: "STEP 1 OF 2" });
+      setGuide("confirmed", "Shutdown Cinema", "Initiates standby for the cinema equipment. The red power button then completes the shutdown.");
+    } else if (action === "music") {
+      showOverlay("PLAY MUSIC", "Useful if the projector has not switched off within about two minutes of entering Music Mode.",
+        { tag: "CONFIRMED QUICK ACTION" });
+      setGuide("confirmed", "Play Music", "A quick action that can be tried if the projector is still on after approximately two minutes in Music Mode. It may take about a minute to cool. This is guidance, not a guarantee.");
+    } else if (action === "source") {
+      var sourceName = button.getAttribute("data-source");
+      Array.prototype.forEach.call(screen.querySelectorAll('[data-screen-action="source"]'), function (row) {
+        row.classList.toggle("is-selected", row === button);
+      });
+      showOverlay(sourceName, "Media source as listed on this remote. Choose the source you want to watch.",
+        { tag: "MEDIA SOURCE" });
+      setGuide("confirmed", sourceName, "One of the media sources shown on this remote.");
+    } else if (action === "scene") {
+      var scene = button.getAttribute("data-scene");
+      Array.prototype.forEach.call(screen.querySelectorAll('[data-screen-action="scene"]'), function (row) {
+        row.classList.toggle("is-selected", row === button);
+      });
+      hideOverlay();
+      setGuide("confirmed", scene, "Lighting scene from the remote's Lighting page. The demonstration does not change real lighting.");
+      showToast(scene + " selected (demonstration)", 2400);
+      announce(scene + " lighting scene selected in the demonstration.");
+    }
+  });
+
+  /* -------------------------------------------------------------
+     Wall keypads: physical buttons and two-second holds
+  ------------------------------------------------------------- */
+  var HOLD_MS = 2000;
+
+  var KEYPADS = {
+    internal: {
+      name: "Internal black keypad",
+      short: "Black keypad",
+      feedback: document.getElementById("internal-keypad-feedback"),
+      actions: {
+        cleaning: {
+          label: "Cleaning Lights", short: "Cleaning Lights", hold: false, tone: "active",
+          title: "Cleaning Lights selected",
+          text: "Activates the cleaning-lighting scene. This is a lighting function only."
+        },
+        mood: {
+          label: "Mood Lights", short: "Mood Lights", hold: false, tone: "active",
+          title: "Mood Lights selected",
+          text: "Activates the mood-lighting scene. This is a lighting function only."
+        },
+        activate: {
+          label: "Activate Cinema", short: "Activate Cinema", hold: true, tone: "active",
+          title: "Activate Cinema",
+          text: "Starts the cinema activation sequence. Hold for about two seconds; the action is not triggered by a short press."
+        },
+        music: {
+          label: "Music Mode", short: "Music Mode", hold: true, tone: "active",
+          title: "Music Mode selected",
+          text: "Selects music mode. Choose a music source afterwards. The projector may briefly illuminate and then switch off; this is normal."
+        },
+        shutdown: {
+          label: "Shutdown Cinema", short: "Shutdown Cinema", hold: true, tone: "active",
+          title: "Shutdown Cinema",
+          text: "Initiates the cinema equipment's standby procedure. The projector may take approximately one minute to cool; do not disconnect its power."
+        }
+      }
+    },
+    external: {
+      name: "External white keypad",
+      short: "White keypad",
+      feedback: document.getElementById("external-keypad-feedback"),
+      actions: {
+        cleaning: {
+          label: "Cleaning Lights", short: "Cleaning Lights", hold: false, tone: "active",
+          title: "Cleaning Lights selected",
+          text: "Activates the cleaning-lighting scene. When finished, press Shutdown Cinema on this keypad to switch the lights off."
+        },
+        mood: {
+          label: "Mood Lights", short: "Mood Lights", hold: false, tone: "active",
+          title: "Mood Lights selected",
+          text: "Activates the mood-lighting scene. This is a lighting function only."
+        },
+        activate: {
+          label: "Activate Cinema", short: "Activate Cinema", hold: false, disabled: true, tone: "warn",
+          title: "Activate Cinema is disabled",
+          text: "This button does nothing on the external white keypad. Use the internal black keypad or the remote's Quick Actions to start the cinema."
+        },
+        music: {
+          label: "Music Mode", short: "Music Mode", hold: false, tone: "active",
+          title: "Music Mode selected",
+          text: "Music Lights scene selected. This does not activate the full cinema."
+        },
+        shutdown: {
+          label: "Shutdown Cinema", short: "Shutdown Cinema", hold: false, tone: "active",
+          title: "External Shutdown Cinema selected",
+          text: "Lights switched off. The cinema equipment remains on."
+        }
+      }
+    }
+  };
+
+  function setKeypadFeedback(kp, title, text, tone) {
+    var box = KEYPADS[kp].feedback;
+    if (!box) return;
+    box.setAttribute("data-tone", tone || "idle");
+    box.querySelector(".kf-title").textContent = title;
+    box.querySelector(".kf-text").textContent = text;
+    box.querySelector(".kf-note").textContent = "Demonstration only \u2013 no equipment is controlled.";
+  }
+
+  function findKeypadButton(kp, key) {
+    return document.querySelector('[data-keypad="' + kp + '"][data-key="' + key + '"]');
+  }
+
+  function triggerKeypad(kp, key) {
+    var pad = KEYPADS[kp];
+    var action = pad.actions[key];
+    if (!pad || !action) return;
+
+    Array.prototype.forEach.call(document.querySelectorAll('[data-keypad="' + kp + '"]'), function (button) {
+      button.classList.remove("is-active", "is-pressed");
+    });
+
+    var button = findKeypadButton(kp, key);
+    if (button && !action.disabled) {
+      button.classList.add("is-active");
+      button.classList.add("is-pressed");
+      window.setTimeout(function () { button.classList.remove("is-pressed"); }, 200);
+    }
+
+    setKeypadFeedback(kp, action.title, action.text, action.tone);
+    showToast(pad.short + " \u00b7 " + action.short, 3400);
+    announce(pad.name + ". " + action.title + ". " + action.text + " Demonstration only.");
+
+    if (action.disabled) {
+      showToast("Activate Cinema is disabled on the white keypad", 3400);
+    }
+  }
+
+  function beginHold(button, kp, key) {
+    if (button.getAttribute("data-holding") === "true") return;
+    var action = KEYPADS[kp].actions[key];
+    if (action.disabled) {
+      triggerKeypad(kp, key);
+      return;
+    }
+    button.setAttribute("data-holding", "true");
+    button.classList.add("is-holding", "is-pressed");
+    button.style.setProperty("--hold", "0%");
+    setKeypadFeedback(kp, action.label + " \u2013 hold", "Keep holding for approximately two seconds. The action is not triggered until the hold is complete.", "active");
+    showToast("Hold " + action.label + " for about 2 seconds", 2400);
+
+    var started = (window.performance && performance.now) ? performance.now() : Date.now();
+    function frame(now) {
+      var elapsed = now - started;
+      var progress = Math.max(0, Math.min(1, elapsed / HOLD_MS));
+      button.style.setProperty("--hold", (progress * 100).toFixed(1) + "%");
+      if (progress < 1) {
+        button._holdFrame = window.requestAnimationFrame(frame);
+      } else {
+        button._holdFrame = null;
+        button.setAttribute("data-holding", "false");
+        button.classList.remove("is-holding", "is-pressed");
+        button.style.setProperty("--hold", "0%");
+        triggerKeypad(kp, key);
+      }
+    }
+    button._holdFrame = window.requestAnimationFrame(frame);
+  }
+
+  function cancelHold(button, kp, key, notify) {
+    if (button.getAttribute("data-holding") !== "true") return;
+    if (button._holdFrame) window.cancelAnimationFrame(button._holdFrame);
+    button._holdFrame = null;
+    button.setAttribute("data-holding", "false");
+    button.classList.remove("is-holding", "is-pressed");
+    button.style.setProperty("--hold", "0%");
+    if (notify) {
+      var action = KEYPADS[kp].actions[key];
+      setKeypadFeedback(kp, action.label + " not activated", "Hold the button for approximately two seconds before releasing. This prevents accidental activation.", "warn");
+      showToast("Hold for about 2 seconds \u2013 " + action.label, 2800);
+    }
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-keypad]"), function (button) {
+    var kp = button.getAttribute("data-keypad");
+    var key = button.getAttribute("data-key");
+    var action = KEYPADS[kp] && KEYPADS[kp].actions[key];
+    if (!action) return;
+
+    if (!action.hold) {
+      button.addEventListener("click", function () { triggerKeypad(kp, key); });
+      return;
+    }
+
+    button.addEventListener("pointerdown", function (event) {
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+      beginHold(button, kp, key);
+    });
+    button.addEventListener("pointerup", function () { cancelHold(button, kp, key, true); });
+    button.addEventListener("pointercancel", function () { cancelHold(button, kp, key, false); });
+    button.addEventListener("pointerleave", function (event) {
+      if (event.pointerType === "mouse") cancelHold(button, kp, key, true);
+    });
+    button.addEventListener("keydown", function (event) {
+      if (event.key !== " " && event.key !== "Enter") return;
+      event.preventDefault();
+      if (!event.repeat) beginHold(button, kp, key);
+    });
+    button.addEventListener("keyup", function (event) {
+      if (event.key !== " " && event.key !== "Enter") return;
+      event.preventDefault();
+      cancelHold(button, kp, key, true);
+    });
+    button.addEventListener("blur", function () {
+      if (button.getAttribute("data-holding") === "true") cancelHold(button, kp, key, false);
+    });
+    button.addEventListener("click", function (event) {
+      // Hold-controlled buttons are handled by the pointer and keyboard events above.
+      event.preventDefault();
+    });
+  });
+
+  /* -------------------------------------------------------------
+     Search
+  ------------------------------------------------------------- */
+  var SEARCH_INDEX = [
+    {
+      target: "remote",
+      kind: "Remote",
+      title: "Crestron TSR-310 remote",
+      text: "Screen pages, confirmed controls, and the complete physical button reference.",
+      keywords: "remote control crestron tsr tsr-310 handheld handset buttons screen"
+    },
+    {
+      target: "remote",
+      kind: "Remote",
+      title: "Remote button feedback on screen",
+      text: "Press any remote button to read its function on the simulated screen.",
+      keywords: "menu mute exit colour button guide ok navigation ring play pause stop rewind fast forward previous next feedback screen"
+    },
+    {
+      target: "remote",
+      kind: "Remote",
+      title: "Volume",
+      text: "Use the volume up and volume down buttons on the left of the remote.",
+      keywords: "volume louder quieter sound audio volume up volume down"
+    },
+    {
+      target: "remote",
+      kind: "Remote",
+      title: "Not configured controls",
+      text: "Only Microphone, GUIDE, Information, DVR and Record are not configured.",
+      keywords: "not configured microphone guide info information dvr record"
+    },
+    {
+      target: "remote-charging",
+      kind: "Remote",
+      title: "Charging the TSR-310",
+      text: "Place the remote in its charging dock; the centre OK button glows orange, and the indicator above it turns green when fully charged.",
+      keywords: "charging charge dock battery orange green ok centre indicator"
+    },
+    {
+      target: "internal-keypad",
+      kind: "Keypads",
+      title: "Internal black keypad",
+      text: "Inside the cinema. Controls cinema functions and lighting; three buttons require a two-second hold.",
+      keywords: "keypad black internal inside hold two seconds activate music shutdown"
+    },
+    {
+      target: "external-keypad",
+      kind: "Keypads",
+      title: "External white keypad",
+      text: "Outside the cinema. Lighting only: Activate Cinema is disabled and Shutdown Cinema turns off the lights only.",
+      keywords: "keypad white external outside lights only disabled cleaning music lights film cinema shutdown"
+    },
+    {
+      target: "proc-start",
+      kind: "Operation",
+      title: "Start the cinema",
+      text: "Hold Activate Cinema for about two seconds on the internal keypad, or use Quick Actions on the remote.",
+      keywords: "start startup turn on cinema activate power on watch film begin"
+    },
+    {
+      target: "proc-music",
+      kind: "Operation",
+      title: "Music Mode",
+      text: "Hold Music Mode for about two seconds, then select a music source. The projector may briefly illuminate and switch off.",
+      keywords: "music mode listen songs audio source music mode"
+    },
+    {
+      target: "proc-shutdown",
+      kind: "Operation",
+      title: "Shut down the cinema",
+      text: "Shutdown Cinema enters standby; the red power button completes the shutdown. On the internal keypad, hold Shutdown Cinema.",
+      keywords: "shutdown shut down switch off turn off standby power red button cinema"
+    },
+    {
+      target: "projector-note",
+      kind: "Projector",
+      title: "Projector cooling",
+      text: "The projector may take about one minute to switch off during its shutdown process. Do not disconnect its power.",
+      keywords: "projector cooling delay minute still on power off lamp"
+    },
+    {
+      target: "projector-note",
+      kind: "Projector",
+      title: "Play Music quick action",
+      text: "If the projector has not switched off after about two minutes in Music Mode, try Play Music.",
+      keywords: "play music quick action projector stuck music two minutes"
+    },
+    {
+      target: "external-keypad",
+      kind: "Lighting",
+      title: "Cleaning Lights",
+      text: "Press Cleaning Lights on either keypad. On the external white keypad, Shutdown Cinema switches the lights off afterwards.",
+      keywords: "cleaning lights clean lights cleaning scene bright lights"
+    },
+    {
+      target: "internal-keypad",
+      kind: "Lighting",
+      title: "Mood Lights",
+      text: "Press Mood Lights on either keypad, or choose it on the remote's Lighting page.",
+      keywords: "mood lights ambient dim scene lighting"
+    },
+    {
+      target: "support",
+      kind: "Support",
+      title: "Installer support",
+      text: "Email sam.avio@gmail.com or phone 0728606070.",
+      keywords: "contact installer support email phone call help"
+    }
+  ];
+
+  var searchInput = document.getElementById("manual-search");
+  var searchResults = document.getElementById("search-results");
+  var searchClear = document.getElementById("search-clear");
+  var searchStatus = document.getElementById("search-status");
+
+  function normalise(value) {
+    return value.toLowerCase().replace(/[^a-z0-9\s-]/g, " ");
+  }
+
+  // Direct operating instructions outrank secondary mentions.
+  var KIND_WEIGHT = { Operation: 2.6, Projector: 2.6, Keypads: 1.3, Lighting: 1.3, Remote: 1, Support: 1 };
+
+  function findResults(query) {
+    var tokens = normalise(query).split(/\s+/).filter(Boolean);
+    if (!tokens.length) return [];
+    var whole = normalise(query).trim();
+    return SEARCH_INDEX.map(function (entry) {
+      var title = normalise(entry.title);
+      var keywords = normalise(entry.keywords);
+      var text = normalise(entry.text);
+      var score = 0;
+      if (title === whole) score += 30;
+      tokens.forEach(function (token) {
+        if (title.indexOf(token) !== -1) score += 7;
+        if (keywords.indexOf(token) !== -1) score += 4;
+        if (text.indexOf(token) !== -1) score += 2;
+      });
+      score = score * (KIND_WEIGHT[entry.kind] || 1);
+      return { entry: entry, score: score };
+    })
+    .filter(function (result) { return result.score > 0; })
+    .sort(function (a, b) { return b.score - a.score; })
+    .slice(0, 6)
+    .map(function (result) { return result.entry; });
+  }
+
+  function closeResults() {
+    searchResults.hidden = true;
+    searchResults.innerHTML = "";
+    searchInput.setAttribute("aria-expanded", "false");
+  }
+
+  function highlightTarget(target) {
+    var element = document.getElementById(target);
+    if (!element) return;
+    element.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    element.classList.remove("is-highlighted");
+    void element.offsetWidth;
+    element.classList.add("is-highlighted");
+    window.setTimeout(function () { element.classList.remove("is-highlighted"); }, 2000);
+  }
+
+  function renderResults(query) {
+    var results = findResults(query);
+    searchResults.innerHTML = "";
+
+    if (!query.trim()) {
+      closeResults();
+      searchClear.hidden = true;
+      return;
+    }
+
+    searchClear.hidden = false;
+
+    if (!results.length) {
+      var empty = document.createElement("p");
+      empty.className = "search-empty";
+      empty.textContent = "No matches. Try cinema, startup, shutdown, remote, charging, menu, music mode, projector, cleaning lights, mood lights, volume or not configured.";
+      searchResults.appendChild(empty);
+    } else {
+      results.forEach(function (entry) {
+        var button = document.createElement("button");
+        button.type = "button";
+        button.className = "search-result";
+        button.setAttribute("role", "option");
+
+        var kind = document.createElement("span");
+        kind.className = "sr-kind";
+        kind.textContent = entry.kind;
+
+        var title = document.createElement("span");
+        title.className = "sr-title";
+        title.textContent = entry.title;
+
+        var snippet = document.createElement("span");
+        snippet.className = "sr-snippet";
+        snippet.textContent = entry.text;
+
+        button.appendChild(kind);
+        button.appendChild(title);
+        button.appendChild(snippet);
+        button.addEventListener("click", function () {
+          closeResults();
+          searchInput.value = "";
+          searchClear.hidden = true;
+          highlightTarget(entry.target);
+        });
+        searchResults.appendChild(button);
+      });
+    }
+
+    searchResults.hidden = false;
+    searchInput.setAttribute("aria-expanded", "true");
+    searchStatus.textContent = results.length + (results.length === 1 ? " suggestion" : " suggestions") + " available.";
+  }
+
+  searchInput.addEventListener("input", function () {
+    renderResults(searchInput.value);
+  });
+
+  searchInput.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeResults();
+      searchInput.value = "";
+      searchClear.hidden = true;
+      return;
+    }
+    if (event.key === "ArrowDown" && !searchResults.hidden) {
+      var first = searchResults.querySelector(".search-result");
+      if (first) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+  });
+
+  searchClear.addEventListener("click", function () {
+    searchInput.value = "";
+    searchClear.hidden = true;
+    closeResults();
+    searchInput.focus();
+  });
+
+  document.addEventListener("mousedown", function (event) {
+    if (!event.target.closest(".search")) closeResults();
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && !searchResults.hidden) closeResults();
+  });
+
+  /* Initial state */
+  showPage("quick");
+})();
+</script>
+</body>
+</html>
